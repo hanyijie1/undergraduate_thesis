@@ -3,3 +3,5 @@
 *.eps
 /docs/reference/refer_code/
 /docs/reference/refer_thesis/format.docx
+*.ttf
+*.otf
