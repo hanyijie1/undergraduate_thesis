@@ -1,0 +1,99 @@
+% 请先查看thesis-hainanu.cls文件，
+% 如果不需要pdf摘要后、封面后为了匹配奇偶页的空白页设置，请在thesis-hainanu.cls中注释掉，对应的判断语句。
+
+\documentclass[bachelor]{thesis-hainanu}
+\numberwithin{equation}{section}
+\usepackage{setspace}
+\usepackage{doi}                  % 优化DOI显示格式
+\usepackage{listings}
+\lstset{
+	basicstyle=\ttfamily\small,
+	extendedchars=true,
+	inputencoding=utf8,
+	escapeinside={\%*}{*)},
+	showstringspaces=false,
+	tabsize=4,
+	breaklines=true,
+	literate=%
+	{├}{|-}1 
+	{─}{--}1 
+	{└}{\textvisiblespace}1 
+	{\\}{{\textbackslash}}1,
+	frame=shadowbox,
+	rulesepcolor=\color{gray}
+}
+\setstretch{1.5}  % 全局 1.5 倍行距 [[5]][[7]]
+
+\title{基于强场电离时域干涉的光场与库仑相互作用调控研究}{This is English name of your thesis title}
+\studentnumber{20213006413}
+\author{韩懿杰}{Name Your}
+\grade{2021}
+\school{物理与光电工程学院}{School of Physics and Optoelectronic Engineering}
+\depart{物理系}
+\major{应用物理学}{Applied Physics}
+\advisor{刘希望}{Dr. Teacher Name}
+\complishyear{2025} %年份
+\complishmonth{4}	%月份
+\complishday{18}	%日期
+
+% require all the usepackages here
+% \usepackage{algorithm2e}
+
+\begin{document}
+	
+\makecover
+% 空白页
+%\newpage
+%\thispagestyle{empty}
+%\mbox{}
+%\newpage
+
+% This is a template of mutiple files.
+% The folders chapters/ and misc/ have the related files
+
+% abstract
+% 这是你中文摘要
+\frontmatter
+\input{misc/chinese_abstract}
+% 这是你英文摘要
+\input{misc/english_abstract}
+
+\thesistableofcontents
+
+
+% thesis contents
+\mainmatter
+\input{chapter/c1_exordium}
+\input{chapter/c2}
+\input{chapter/c3}
+\input{chapter/c4}
+\input{chapter/c5}
+%\input{chapter/template}
+
+% misc杂项文件
+
+\input{misc/acknowledgement}
+% Uncomment to list all the entries of the database.
+% \nocite{*}
+
+% \thesisbibliography{reference}
+% 维护reference 文件即可
+\bibliographystyle{thesis-hainanu}	% 使用模板自带的文献样式
+\bibliography{refs} 		% 加载 refs.bib 文件
+
+% 附录
+\input{misc/appendix}
+
+%
+% Uncomment the following code to load bibliography database with native
+% \bibliography command.
+%
+% \nocite{*}
+% \bibliographystyle{thesis-hainanu}
+% \bibliography{refs}
+%
+%\thesisaccomplish{publications}
+%\input{misc/translate_original}
+%\input{misc/translate_chinese}
+
+\end{document}

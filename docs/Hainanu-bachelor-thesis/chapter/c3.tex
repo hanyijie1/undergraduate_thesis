@@ -1,0 +1,177 @@
+\chapter{研究和讨论}
+\section{Adams-Bashforth迭代阶数选取}
+在强场物理的数值模拟中，对含时薛定谔方程的求解常涉及对时间积分的高精度计算。Adams-Bashforth多步法作为显式积分方案，其阶数选择直接影响计算精度和效率。本论文通过解析方法(见\ref{app:ab_code}）生成了1-8阶所有迭代系数，选取和激光源频率（$\omega = 0.057$）和时域($N T$，$N = 4$)相同的（见图\ref{fig:sc_laser}）可解析积分的测试函数：
+\begin{equation}
+	f(x) = \sin({\frac{\omega}{12} t}^2) \cos{\omega t},
+\end{equation}
+其积分解析形式为：
+\begin{equation}
+	y_{ana, i} = \frac{\sin{(\omega t_i)}}{2\omega} - \frac{3}{14\omega}\sin{(\frac{7\omega}{6} t_i)} - 
+	\frac{3}{10\omega}\sin{(5\omega t_i)},
+\end{equation}
+基于​​Adams-Bashforth多步法​​，计算不同阶数的积分数值解 $y_{num, i}$，使用均方误差（​​Mean Squared Error​​，MSE）衡量数值解与解析解的差异。
+\begin{equation}
+	\text{MSE} = \frac{1}{n-1} \sum_{i=1}^n \left( y_{\text{num},i} - y_{\text{ana},i} \right)^2.
+\end{equation}
+
+\begin{figure}[!htbp]  % h是强制
+	\centering
+	\includegraphics[width=14cm]{order_test/err_analysis.png}
+	\caption{Adams-Bashforth多步法在不同迭代阶数（1-8阶）和时间步数下的（MSE）分布特征；（a）热图（低时间步数区间）：横轴为时间步数，纵轴为迭代阶数，颜色表示MSE；
+		(b) 折线图（低步数段）：展示k=4-6阶的误差衰减；
+		(c) 热图（高时间步数区间）：高阶方法高于低阶误差区域；
+		(d) 折线图（高步数段）：阶数优势消失。}
+	\label{fig:err_analysis}
+\end{figure}
+
+根据图 \ref{fig:err_analysis}中(a)(b)，在时间步数为 $[3000, 3300)$ 时(对应步长范围约为 $(0.13361372, 0.14697509]$ ，在迭代阶数为4的时候出现牛顿-科特斯方法的稳定性界限，即代数精度的最优阶数分界点。而当阶数为5之上时，MSE已无明显差别；对于(c)(d)，在时间步数为$[14970, 15000)$时（对应步长范围约为 $[0.02939502, 0.02945393)$），该分界线仍然存在，但4阶之上精度几乎无差别。
+假设迭代阶数为6，全局累积截断误差与步长（$h$）关系：
+\begin{equation}
+	E_{r} = h^6.
+\end{equation}
+全局舍入误差为机器精度 $\epsilon$ 除以步长的反比：
+\begin{equation}
+	E_{t} = \frac{\epsilon}{h}.
+\end{equation}
+为了估计数值计算的主导误差机制，代入平衡条件 $E_{r}\approx E_{t}$，临界步数为85130,对应步长约为0.00518，这是实际计算中几乎不可能达到的精度，也即理论估计下算法早场的截断误差为该积分方法的主导误差。
+
+ 但是实际情况并非如此。结合图\ref{fig:err_analysis} （b）（d）结果，在步数为$[3000, 3300)$ 时符合高阶精度更高的一般规律，但是MSE实际差别不大；在步数为$[0.02939502, 0.02945393)$ 时，4阶方法的牛顿-科特斯方法的稳定性界限依然存在，但是4阶之后稳定出现了高阶误差大小大于低阶的反常现象，这说明实际误差已经由舍入误差主导。
+
+考虑到误差测试时舍入误差提前主导的反常现象，本文对时间维度步数选取为15000,阶数为4；极角维度积分由于能谱作图精度要求不高，步数选取为1000,阶数为5；动量大小仅有视图作用，步数选取为200。
+
+% SC
+%
+\section{单色场电离特征分析}
+\subsection{SFA}
+考虑单色激光，如图\ref{fig:sc_laser} 。
+\begin{equation}
+	\mathbf{E}(t) = E_0 \exp\left(-\frac{(t - t_0)^2}{2\sigma^2}\right) \cos(\omega t) \hat e_x,
+	\label{eq:sc_laser}
+\end{equation}
+其中脉宽高斯参数$\sigma = \frac{NT}{4\sqrt{\ln{2}}}$，周期数$N = 4$，$E_0 = 0.05$，$t_0 = \frac{NT}{2}$。
+
+\begin{figure}[!htbp]  % h是强制
+	\centering
+	\includegraphics[width=14cm]{sc/laser.png}
+	\caption{单色激光：虚线框为周期间干涉时域，也即 $[0, T/2]$ 与$ [T, 3T/2]$ ，后文周期间干涉时域选取与此相同。}
+	\label{fig:sc_laser}
+\end{figure}
+
+\begin{figure}[!htbp]  % h是强制
+	\centering
+	\includegraphics[width=14cm]{sc/sfa/trans_pro_spect_graph.png}
+	\caption{SFA框架下跃迁概率分布与光电子能谱特征；（a）跃迁概率角分布与（b）光电子能谱随时间演化特征；（a1-a4）分别对应不同时间窗口的极坐标概率分布，（b1-b4）为对应低能区域（$[0, 0.2]$）能谱。}
+	\label{fig:sc_sfa_trans_spect}
+\end{figure}
+
+图\ref{fig:sc_cva_trans_spect}展示了SFA框架下的跃迁概率分布与光电子能谱特征。在SFA的极坐标分布中（图a1-a4），可观察到典型的"月牙"干涉结构。这种结构在SPA理论中来源于电离电子在连续态中的相长干涉——当电子在相邻半周期内电离时，其动量空间波函数相位差导致  $\cos^2\theta$ 调制\citing{Arbo2012Doubly}。随着时间窗口的扩展（a1到a4），周期间干涉使动量分布呈现不在圆心的环状结构，对应能谱中的等间距峰结构，且有比较明显的周期间峰（图b1-b4）。
+
+\subsection{CVA}
+
+\begin{figure}[!htbp]  % h是强制
+	\centering
+	\includegraphics[width=14cm]{sc/cva/trans_pro_spect_graph.png}
+	\caption{CVA框架下强场电离的（a）跃迁概率角分布与（b）低能区域能谱，参数设置与图\ref{fig:sc_sfa_trans_spect}相同；统一色标采用1/6次方非线性映射以增强弱信号对比。}
+	\label{fig:sc_cva_trans_spect}
+\end{figure}
+
+引入库伦势修正后（图\ref{fig:sc_cva_trans_spect}），CVA结果展现出显著差异。在极坐标分布中（图a1-a4），低动量区（$p<1$）出现向心聚集现象，且高动量区（$p>1.5$）的干涉条纹出现更加复杂的人字形暗纹。可以发现，周期内模式与脉冲长度相对独立，这与\citing{Arbo2012Doubly}中结论相符良好。在多周期干涉能谱中（b4），我们观察到相对于SFA不太清晰的周期间峰。2个周期的能谱曲线（b3）被周期内模式调制\citing{Arbo2012Doubly}，以虚线表示。
+
+% OTC
+%
+\section{正交双色场电离特征分析}
+\subsection{SFA}
+
+\begin{figure}[!htbp]  % h是强制
+	\centering
+	\includegraphics[width=14cm]{otc/laser.png}
+	\caption{正交双色激光}
+	\label{fig:otc_laser}
+\end{figure}
+
+考虑正交双色激光，如图\ref{fig:otc_laser} 。
+\begin{equation}
+\mathbf{E}(t) = E_0 \exp\left(-\frac{(t - t_0)^2}{2\sigma^2}\right) \cos(\omega t) \hat e_x + E_0 \exp\left(-\frac{(t - t_0)^2}{2\sigma^2}\right) \cos(2 \omega t + \phi) \hat e_y,
+\label{eq:otc_laser}
+\end{equation}
+其中相位差$\phi = \frac{\pi}{2}$，其他参数设置与\ref{eq:sc_laser}相同。
+
+\begin{figure}[!htbp]  % h是强制
+	\centering
+	\includegraphics[width=14cm]{/otc/sfa/trans_pro_spect_graph.png}
+	\caption{SFA框架下跃迁概率分布与光电子能谱特征；（a）跃迁概率角分布与（b）光电子能谱随时间演化特征；（a1-a4）分别对应不同时间窗口的极坐标概率分布，（b1-b4）为对应低能区域（$[0, 0.2]$）能谱；统一色标采用1/6次方非线性映射以增强弱信号对比。}
+	\label{fig:otc_sfa_trans_spect}
+\end{figure}
+
+图\ref{fig:otc_sfa_trans_spect}展示了SFA框架下的结果：极坐标分布（a1-a4）呈现出独特的鱼鳞干涉结构，此结果和\citing{Yu2016Coulomb}中结果高度一致，这是由x方向基频场与y方向倍频场的相干叠加所致。与单色场的轴对称扇形结构不同，双色场的正交相位关系（$\phi = \frac{\pi}{2}$）导致电离电子波包在动量空间的各向异性干涉。能谱演化（b1-b4）显示出分裂的周期间峰，表现为更密集的峰结构。
+
+\subsection{CVA}
+
+\begin{figure}[!htbp]  % h是强制
+	\centering
+	\includegraphics[width=14cm]{/otc/cva/trans_pro_spect_graph.png}
+	\caption{CVA框架下跃迁概率分布与光电子能谱特征；（a）跃迁概率角分布与（b）光电子能谱随时间演化特征；（a1-a4）分别对应不同时间窗口的极坐标概率分布，（b1-b4）为对应低能区域（$[0, 0.2]$）能谱；统一色标采用1/6次方非线性映射以增强弱信号对比。}
+	\label{fig:otc_cva_trans_spect}
+\end{figure}
+
+引入库伦势修正后（图\ref{fig:otc_cva_trans_spect}），低动量区（$p<0.5$）出现沿45度和135度。方向的电子聚集，这与库伦势对低能电子的吸引效应和双色场极化方向的共同作用有关；高动量区（$p>1$）的干涉条纹演变为交叉网格状图案，反映了电子在双色场中经历的复杂加速-散射过程。能谱分布（图b4）中，周期内调制（虚线）的幅度较单色场更大，表明双色场增强了电子轨迹的时空调制效应。
+
+% NOTC
+%
+\section{非正交双色场电离特征分析}
+\subsection{非正交双色场（85°）CVA近似研究}
+
+\begin{figure}[!htbp]  % h是强制
+	\centering
+	\includegraphics[width=14cm]{/n_otc85/laser.png}
+	\caption{非正交双色激光($85^\circ$)}
+	\label{fig:n_otc85_laser}
+\end{figure}
+
+考虑非正交双色激光，如图\ref{fig:n_otc85_laser} 。
+\begin{equation}
+	\mathbf{E}(t) = \left(E_1 + E_2\cos\alpha\right) \hat e_x + E_2\sin\alpha \hat e_y,
+\end{equation}
+其中 $E_1(x) = E_0 \exp\left(-\frac{(t - t_0)^2}{2\sigma^2}\right) \cos(\omega t)$，$E_2 = E_0 \exp\left(-\frac{(t - t_0)^2}{2\sigma^2}\right) \cos(2 \omega t + \phi)$，激光夹角$\alpha = 85^\circ$。其他参数设置与（\ref{eq:sc_laser}）和（\ref{eq:otc_laser}）相同。
+
+\begin{figure}[!htbp]  % h是强制
+	\centering
+	\includegraphics[width=14cm]{/n_otc85/cva/trans_pro_spect_graph.png}
+	\caption{CVA框架下跃迁概率分布与光电子能谱特征；（a）跃迁概率角分布与（b）光电子能谱随时间演化特征；（a1-a4）分别对应不同时间窗口的极坐标概率分布，（b1-b4）为对应低能区域（$[0, 0.2]$）能谱；统一色标采用1/6次方非线性映射以增强弱信号对比。}
+	\label{fig:n_otc85_cva_trans_spect}
+\end{figure}
+
+图\ref{fig:n_otc85_cva_trans_spect}展示了$85^\circ$ 非正交双色场的CVA计算结果。与正交场（图\ref{fig:otc_cva_trans_spect}）相比，其极坐标分布呈现出独特的不对称性特征。在低动量区（$p<0.5$），电子聚集方向从正交场的 $30^\circ$ 和 $150^\circ$ 度方向偏转至 $30^\circ$ 和 $145^\circ$ 方向（图a1虚线），这与激光合成场的非正交极化方向直接相关。高动量区（p>1）的黑色斑纹在下半区无明显变化，上半区明显右偏（图a4），反映了非正交相位关系对电子轨迹的调制。
+
+能谱演化特征表现出周期内调制幅度相对于正交场的更加明显（黑色虚线），表明非正交场增强了电子波包的相干叠加效应。这种增强可能源于两个方面：首先，$85^\circ$ 极化角降低了电离电子的横向动量对称性，导致更多异相位波包成分参与干涉；其次，非正交加速路径增加了电子与母离子再碰撞的概率，如\citing{Arbo2012Doubly}所描述的库伦聚焦效应。
+
+\subsection{非正交双色场夹角扫描的CVA研究}
+
+为研究非正交双色场的夹角效应，本工作选取 $\alpha = [5^\circ,25^\circ,45^\circ,65^\circ,85^\circ]$ 进行参数扫描。图\ref{fig:n_otc_cva_trans_spect}展示了不同夹角的跃迁概率分布与对应能谱特征，图\ref{amp_contrast}则呈现了特定动量值（$p=0.62,1.21,1.81$）的角向分布对比。
+
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=14cm]{n_otc/cva/trans_pro_spect_graph.png}
+	\caption{非正交双色场不同夹角的CVA计算结果：（a1-a5）极坐标跃迁概率分布，（b1-b5）对应能谱曲线，$\alpha$取值分别为$5^\circ,25^\circ,45^\circ,65^\circ,85^\circ$；统一色标采用1/6次方非线性映射以增强弱信号对比。}
+	\label{fig:n_otc_cva_trans_spect}
+\end{figure}
+
+能谱分布（图\ref{fig:n_otc_cva_trans_spect} b1-b5）呈现出显著的夹角依赖特征。例如在（图\ref{fig:n_otc_cva_trans_spect} b1） $E_k=0.15$ 附近出现显著凹陷（箭头,约对应第二个极小值点），这与该夹角下电子回碰母离子的共振条件相关\citing{Holmegaard2010Photoelectron}\citing{Wang2020High}。随着夹角增大，共振能量向低能方向移动，凹陷位置逐渐消失，表明非正交场的倾斜角度可有效调控电子再碰撞动力学。
+
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=14cm]{n_otc/cva/amp_contrast.png}
+	\caption{非正交双色场夹角扫描的角向分布对比（$p=0.62,1.21,1.81$ ）：（a）低动量区呈现双峰结构，峰间距随夹角增大；（b）中动量区出现移动单峰结构；（c）高动量区展现复杂震荡行为}
+	\label{amp_contrast}
+\end{figure}
+
+在低动量区域（$p=0.62$），角向分布呈现双峰结构（图\ref{amp_contrast}a），峰间距随夹角增大呈非线性扩展。当$\alpha=5^\circ$时，双峰间距仅为 $0.016\pi$ ，而$\alpha=85^\circ$时扩展至 $0.224 \pi$ 。这种扩展效应可用经典电子轨迹的偏转解释：在非正交场中，如若电子被散射初始动量较小，电子后续轨迹主要受到合成电场的联合加速，库伦势的吸引作用使低能电子更易被捕获在合成场方向附近，形成双峰聚集。
+
+中动量区域（$p=1.21$）出现单峰结构主导（图\ref{amp_contrast}b），其角向节点位置随夹角变化呈现规律性移动。
+当夹角增大时，矢量势$\mathbf{A}(t)$的投影关系改变导致相位积累速率变化，从而引起节点位置的连续偏移。
+
+高动量区域（$p=1.81$）固定动量和激光夹角跃迁概率幅度随极角演化会展现出更加复杂的高频振荡行为（图\ref{amp_contrast}c），例如 $\alpha = 15^\circ$ 时，概率幅随极角变化从无序的高频振荡演变为清晰的单峰（$\theta=\frac{\pi}{4}$）。这反映了非正交场中电子跃迁概率随极角进行混沌-有序的转变：在远离电场作用时，库伦散射导致电子轨迹愈发随机；而激光夹角较大时，二维加速路径的相位关联性增强，出现规则干涉网格。
+
+以上内容揭示了库伦势在非正交场中角度参量对空间干涉的控制作用：当 $\alpha>45^\circ$ 时，在低能区域，电子的有清晰的双峰结构（图\ref{amp_contrast} a），这是由于电势场对倾斜轨迹电子的捕获具有不对称性。由此实验上可以通过双色场夹角以调控电子角分布，例如通过选择$65^\circ$夹角可在动量空间产生变形V结构（图\ref{fig:n_otc_cva_trans_spect} a4），这种结构可能会在阿秒条纹相机等应用中具有潜在价值。
+
+

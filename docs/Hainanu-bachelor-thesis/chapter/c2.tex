@@ -1,0 +1,99 @@
+\chapter{理论方法}
+
+\section{Adams-Bashforth算法}
+
+本文数值积分较为复杂，且需要大量前置数值解条件，隐式方法不现实，需要一种显式积分方法。
+
+Adams-Bashforth方法的历史可追溯至John Couch Adams\citing{Bashforth1883}，用于解决毛细作用的微分方程
+Adams-Bashforth算法基于对微分方程的积分形式近似，核心思想是通过前几个时间步的函数值预测下一个时间步的解。它基于对微分方程的积分形式近似\citing{Hairer1993}，即：
+\begin{equation}
+y(t_{n+1}) = y(t_n) + \int_{t_n}^{t_{n+1}} f(t, y(t)) \, dt.
+\end{equation}
+由于 \(f(t, y(t))\) 在实际计算中未知，Adams-Bashforth方法使用过去 \(k\) 个时间步的函数值 \(f(t_{n-k+1}, y_{n-k+1}), \ldots, f(t_n, y_n)\) 构建一个插值多项式 \(p(t)\)，然后近似积分：
+\begin{equation}
+\int_{t_n}^{t_{n+1}} f(t, y(t)) \, dt \approx \int_{t_n}^{t_{n+1}} p(t) \, dt.
+\end{equation}
+通过变换变量 \(u = \frac{t - t_n}{h}\)，积分区间变为 \([0, 1]\)，得到：
+\begin{equation}
+y_{n+1} = y_n + h \sum_{j=0}^{k-1} b_j f(t_{n-j}, y_{n-j}),
+\end{equation}
+其中 \(h\) 是时间步长，\(b_j\) 是待定的系数。这种方法是显式的，因为它只依赖于已知的过去值，不需要解隐式方程。
+
+其迭代公式系数通过对拉格朗日插值多项式的积分计算得出。对于 \(k\) 步方法，使用 \(k\) 个过去点的函数值构建多项式，然后积分得到系数。具体公式为：
+\begin{equation}
+b_j = \frac{1}{j!} \int_0^1 l_j^{(k)}(u) \, du,
+\end{equation}
+其中 \(l_j^{(k)}(u)\) 是拉格朗日基础多项式。另一种表达为：
+\begin{equation}
+b_{s-j-1} = \frac{(-1)^j}{j!(s-j-1)!} \int_0^1 \prod_{i=0 \atop i \neq j}^{s-1} (u+i) \, du,
+\end{equation}
+其中 \(s = k\) 是方法的阶数。
+
+AB迭代系数生成器和积分求解器代码实现参考附录\ref{app:ab_code}和\ref{app:integral_solver} 。
+
+\section{SFA理论}
+对于振幅共面的强场激光源对束缚态电子的电离，可以忽略传播方向（假如为z方向）的被散射电子的动量分布，于是有：
+\begin{equation}
+\frac{d^2P}{dp_x dp_y} = |\mathbf M_p|^2, \label{eq:trans amp}
+\end{equation}
+其中P为总跃迁概率，$dp_xdp_y$ 是动量平面空间面积微元，$\bm M_p$ 是跃迁概率密度幅。
+
+在SFA理论中，$M_p$ 可以表示为：
+\begin{equation}
+\mathbf M_p = \int_{-\infty}^{\infty} dt \, \langle \psi^V_p(t) | \mathbf{r} \cdot \mathbf{E}(t) | \psi_0(t) \rangle, \label{eq:primal M_p}
+\end{equation}
+其中 $|\psi_0(t)$ 为电子初态, 本文取氢原子，也即 $\psi_0 = \frac{e^{-r}}{\sqrt{4\pi}}$ 。$\mathbf{r} \cdot \mathbf{E}(t)$ 为电偶极矩。SFA理论认为 $\psi^V_p(t)$ 为跃迁末态Volkov波函数，其表达式为：
+\begin{equation}
+\psi^V_p(t) = \frac{\exp\left\{ i\left[\mathbf{p} + \mathbf{A}(t)\right] \cdot \mathbf{r} \right\}}{(2\pi)^{\frac{3}{2}}} \times \exp\left\{ -i \int_{t}^{\infty} dt' \frac{\left[\mathbf{p} + \mathbf{A}(t')\right]^2}{2} \right\}, \label{eq:volkov state}
+\end{equation}
+其中 $\mathbf{p}$ 为空间动量，$\mathbf{A}(t)$ 为矢势， 采用库伦规范，可取 $\mathbf{A}(t) = -\int_{0}^{t} dt' \mathbf{E}(t')$ 。该跃迁概率密度表达式可以写作：
+\begin{equation}
+\mathbf M_p = - i\int_{-\infty}^{\infty} dt\, \exp{\{iS(\mathbf{p}, t)\}} \langle \mathbf{p} + \mathbf{A}(t) | \mathbf{r} \cdot \mathbf{E}(t) | \psi_0(t) \rangle, \label{eq:simplify M_p}
+\end{equation}
+其中 $\exp{iS(\mathbf{p}, t)}$ 被称为半经典作用量，其表达式为：
+\begin{equation}
+S(\mathbf{p}, t) = \int_{t_0}^t \left[ \frac{\left[\mathbf{p} + \mathbf{A}(t')\right]^2}{2} + I_p \right] dt', \label{eq:semi action}
+\end{equation}
+其中 $I_p$ 为原子的电离势，本文取氢原子，也即 $I_p = 0.5$ 。
+SFA近似下，如若给定氢原子初态和电离势，\eqref{eq:simplify M_p} 第二个因子可重写为：
+\begin{equation}
+\langle \mathbf{p} + \mathbf{A}(t) | \mathbf{r} \cdot \mathbf{E}(t) | \psi_0(r) \rangle = -i \frac{2^{7/2} (2I_p)^{5/4} [\mathbf{p} + \mathbf{A}(t)] \cdot \mathbf{E}(t)}{\pi \{ [\mathbf{p} + \mathbf{A}(t)]^2 + 2I_p \}^3}. \label{eq:rewrite M_p 2}
+\end{equation}
+对于能谱计算，可考虑坐标重构：
+\begin{equation}
+	dp_xdp_y = pdp d\theta.
+	\label{eq:energy}
+\end{equation}
+由于强场，忽略末态势能，有 $E = \frac{p^2}{2}$ ，有：
+\begin{equation}
+	dE = p dp.
+	\label{eq:diff_energy}
+\end{equation}
+联立（\ref{eq:primal M_p}）（\ref{eq:energy}）（\ref{eq:diff_energy}），有：
+\begin{equation}
+	\frac{dP}{dE} = \int_{0}^{2\pi} |\mathbf{M}_p|^2 d\theta.
+\end{equation}
+
+
+SFA的微分形式参考附录\ref{app:sfa_trans_amp} 。
+
+\section{CVA理论}
+在CVA理论中，考虑库仑势对末态波函数的修正，跃迁矩阵 $\mathbf{M}_p^{\text{CVA}}$ 可表示为：  
+\begin{equation}  
+\mathbf{M}_p^{\text{CVA}} = \int_{-\infty}^{\infty} dt \, \langle \psi_p^{\text{CV}}(t) | \mathbf{r} \cdot \mathbf{E}(t) | \psi_0(t) \rangle. \label{eq:primal M_p_cva}  
+\end{equation}  
+CVA理论中，末态波函数 $\psi_p^{\text{CV}}(t)$ 库仑-Volkov态由库仑波与Volkov型态相乘构成，其表达式为：  
+\begin{equation}  
+\begin{split}
+\psi_{\mathbf{p}}^{\rm CV}(\mathbf{r},t) 
+& = D_c(Z_T, \mathbf{p}, \mathbf{r}) \times \frac{\exp\left\{i[\mathbf{p} + \mathbf{A}(t)] \cdot \mathbf{r}\right\}}{(2\pi)^{3/2}} \\
+& \times \exp\left\{-i \int_t^\infty dt' \frac{[\mathbf{p} + \mathbf{A}(t')]^2}{2}\right\}, \label{eq:coulomb_volkov}  
+\end{split}
+\end{equation}  
+其中出射库仑波定义为：  
+\begin{equation}  
+D_c(Z_T, \mathbf{p}, \mathbf{r}) = N_T^-(p)_1 F_1(-iZ_T, 1, -ipr - i\mathbf{p} \cdot \mathbf{r}), \label{eq:outgoing wave}
+\end{equation}  
+其中 $N_T^-(p) = \exp(\pi Z_T/2p)\Gamma(1+iZ_T/p)$ 为包含欧拉 $\Gamma$ 函数的库仑归一化因子，$_1F_1$ 表示合流超几何函数，$Z_T$ 为原子核电荷数。当 $Z_T=0$ 时，式\eqref{eq:coulomb_volkov}的库仑-Volkov态退化为式\eqref{eq:volkov state}的Volkov函数。
+
+CVA的微分形式参考附录\ref{app:cva_trans_amp} 。

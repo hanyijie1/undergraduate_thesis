@@ -1,0 +1,36 @@
+feedback:
+
+已经完成：
+* spa的sc实现（甭管对不对吧唉）；
+代码网址：https://gitee.com/han-yijie1/undergraduate_thesis/blob/master/src/math_utils.py
+https://gitee.com/han-yijie1/undergraduate_thesis/blob/master/src/calculator/sc/spa/trans_amp_calculator.py
+图像网址：https://gitee.com/han-yijie1/undergraduate_thesis/blob/master/graph/sc/spa/trans_pro_spect_graph.png
+
+修正内容
+* 英语名称首次全称。
+* 引言偏向OTC改为偏向时空干涉。
+* 图表辅助线和ticks优化。
+* 其他词汇的删除和添加。
+
+待完成：
+* spa相关图像确认。
+* spa论文文字内容补全。
+* 读参考文献。
+
+其他问题诠释
+* 学校要求有装订线，但是大部分人好像都不管。这是页面看上去有点错位的原因，这是实际上是奇偶面装订线不同的原因， 我们做latex模板时考虑了这件事。
+* NOTC我直接分解到x-y方向上用OTC方法计算的，因为电场是矢量，应该满足线性叠加等效，我想正常这样是可以的。
+
+问题：
+* spa隐式算法要求矢势有解析解，但是前面选取高斯电场没有。所以如果加spa需要整体换电场或者spa单独讨论。
+* 我写的spa算法时鞍点的大致位置找到后（极小值，近0点），使用牛顿迭代法提高精度时乱飘，不知道为什么，后面用了类似于二分法的方法（也不太像，因为S'(t_s)是复数），取得了相当高的精度（np.real(S'(t_s) < 10 ** {-14} )）。找到鞍点后求M_p时有一个排除不稳定点的条件：
+                df_dt_x = (kx+Ax_t)*(-Ex_t)
+                df_dt_y = (ky+Ay_t)*(-Ey_t)
+                df_dt   = df_dt_x + df_dt_y
+
+                judgeSP_imag = imag(df_dt)
+                judgeSP_real = dabs(real(df_dt))
+                if (judgeSP_imag<0d0 .or. judgeSP_real>1d0) cycle
+这个条件我在python中找的鞍点几乎没有满足的（？？？）非常神奇，最后我一气之下没用这个条件。所以最后成图有一些斑点。
+
+谢谢老师!

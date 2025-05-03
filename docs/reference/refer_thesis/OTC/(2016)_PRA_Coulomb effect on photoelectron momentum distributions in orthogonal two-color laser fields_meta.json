@@ -1,0 +1,489 @@
+{
+  "table_of_contents": [
+    {
+      "title": "Coulomb effect on photoelectron momentum distributions in orthogonal two-color laser fields",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          65.11199951171875,
+          69.64703369140625
+        ],
+        [
+          541.3935546875,
+          69.64703369140625
+        ],
+        [
+          541.3935546875,
+          81.60211181640625
+        ],
+        [
+          65.11199951171875,
+          81.60211181640625
+        ]
+      ]
+    },
+    {
+      "title": "I. INTRODUCTION",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          130.54544496536255,
+          299.91738349199295
+        ],
+        [
+          212.77508163452148,
+          299.91738349199295
+        ],
+        [
+          212.77508163452148,
+          309.04071044921875
+        ],
+        [
+          130.54544496536255,
+          309.04071044921875
+        ]
+      ]
+    },
+    {
+      "title": "II. THEORETICAL METHODS",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          107.22299194335938,
+          559.4375449419022
+        ],
+        [
+          235.76528930664062,
+          559.4375449419022
+        ],
+        [
+          235.76528930664062,
+          568.6343078613281
+        ],
+        [
+          106.69494342803955,
+          568.6343078613281
+        ]
+      ]
+    },
+    {
+      "title": "A. SFA theory",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          143.25894165039062,
+          576.6063385009766
+        ],
+        [
+          199.7311248779297,
+          576.6063385009766
+        ],
+        [
+          199.7311248779297,
+          585.5727386474609
+        ],
+        [
+          143.25894165039062,
+          585.5727386474609
+        ]
+      ]
+    },
+    {
+      "title": "B. CVA theory",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          405.48297119140625,
+          518.7448425292969
+        ],
+        [
+          465.78458976745605,
+          518.2630187273026
+        ],
+        [
+          464.59708976745605,
+          527.7112121582031
+        ],
+        [
+          405.48297119140625,
+          528.4044724702835
+        ]
+      ]
+    },
+    {
+      "title": "III. RESULTS AND DISCUSSION",
+      "heading_level": null,
+      "page_id": 2,
+      "polygon": [
+        [
+          366.7920227050781,
+          242.849853515625
+        ],
+        [
+          503.57258796691895,
+          242.48184710741043
+        ],
+        [
+          502.7406005859375,
+          251.8162841796875
+        ],
+        [
+          366.7477855682373,
+          252.2235444188118
+        ]
+      ]
+    },
+    {
+      "title": "IV. CONCLUSION",
+      "heading_level": null,
+      "page_id": 5,
+      "polygon": [
+        [
+          131.10925197601318,
+          70.1668701171875
+        ],
+        [
+          209.73858165740967,
+          69.45757135748863
+        ],
+        [
+          209.73858165740967,
+          79.13330078125
+        ],
+        [
+          131.10925197601318,
+          79.63552460074425
+        ]
+      ]
+    },
+    {
+      "title": "ACKNOWLEDGMENTS",
+      "heading_level": null,
+      "page_id": 5,
+      "polygon": [
+        [
+          385.1610107421875,
+          150.36590576171875
+        ],
+        [
+          485.457088470459,
+          150.12742951512337
+        ],
+        [
+          484.269588470459,
+          159.33233642578125
+        ],
+        [
+          384.7900810241699,
+          160.20414009690285
+        ]
+      ]
+    }
+  ],
+  "page_stats": [
+    {
+      "page_id": 0,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          258
+        ],
+        [
+          "Line",
+          96
+        ],
+        [
+          "Text",
+          12
+        ],
+        [
+          "SectionHeader",
+          2
+        ],
+        [
+          "TextInlineMath",
+          2
+        ],
+        [
+          "Footnote",
+          2
+        ],
+        [
+          "PageFooter",
+          2
+        ],
+        [
+          "PageHeader",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0
+      }
+    },
+    {
+      "page_id": 1,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          805
+        ],
+        [
+          "Line",
+          173
+        ],
+        [
+          "Text",
+          9
+        ],
+        [
+          "Equation",
+          9
+        ],
+        [
+          "TextInlineMath",
+          6
+        ],
+        [
+          "SectionHeader",
+          3
+        ],
+        [
+          "PageHeader",
+          2
+        ],
+        [
+          "PageFooter",
+          1
+        ],
+        [
+          "Reference",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0
+      }
+    },
+    {
+      "page_id": 2,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          438
+        ],
+        [
+          "Line",
+          70
+        ],
+        [
+          "TextInlineMath",
+          5
+        ],
+        [
+          "PageHeader",
+          2
+        ],
+        [
+          "Figure",
+          2
+        ],
+        [
+          "Caption",
+          2
+        ],
+        [
+          "Equation",
+          2
+        ],
+        [
+          "FigureGroup",
+          2
+        ],
+        [
+          "Text",
+          1
+        ],
+        [
+          "SectionHeader",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ],
+        [
+          "Reference",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0
+      }
+    },
+    {
+      "page_id": 3,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          531
+        ],
+        [
+          "Line",
+          106
+        ],
+        [
+          "TextInlineMath",
+          4
+        ],
+        [
+          "PageHeader",
+          2
+        ],
+        [
+          "Text",
+          1
+        ],
+        [
+          "Figure",
+          1
+        ],
+        [
+          "Caption",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ],
+        [
+          "FigureGroup",
+          1
+        ],
+        [
+          "Reference",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0
+      }
+    },
+    {
+      "page_id": 4,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          377
+        ],
+        [
+          "Line",
+          74
+        ],
+        [
+          "PageHeader",
+          2
+        ],
+        [
+          "Figure",
+          2
+        ],
+        [
+          "Caption",
+          2
+        ],
+        [
+          "TextInlineMath",
+          2
+        ],
+        [
+          "FigureGroup",
+          2
+        ],
+        [
+          "Text",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ],
+        [
+          "Reference",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0
+      }
+    },
+    {
+      "page_id": 5,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          637
+        ],
+        [
+          "Line",
+          103
+        ],
+        [
+          "ListItem",
+          36
+        ],
+        [
+          "Text",
+          3
+        ],
+        [
+          "PageHeader",
+          2
+        ],
+        [
+          "SectionHeader",
+          2
+        ],
+        [
+          "ListGroup",
+          2
+        ],
+        [
+          "PageFooter",
+          1
+        ],
+        [
+          "Reference",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0
+      }
+    }
+  ],
+  "debug_data_path": "debug_data/(2016)_PRA_Coulomb effect on photoelectron momentum distributions in orthogonal two-color laser fields"
+}
