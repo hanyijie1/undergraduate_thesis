@@ -1,10 +1,7 @@
-include("./laser_generator.jl") 
-import .LaserGenerator
-
 module MathUtils
     # const input
-    import ..LaserGenerator as LG
-
+    include("./laser_generator.jl") 
+    import .LaserGenerator as LG
     # function
     function calculate_semiaction(t0, kx, ky, kz)
         # variables input
@@ -25,28 +22,49 @@ module MathUtils
         return semi_action
     end
 
-
-"""
-def compute_action(t0, t_end, kx, ky, vec_pot_x_func, vec_pot_y_func, ion_pot):
-    dtr = 0.01
-    t0_real = np.real(t0)
-    n_steps = int((t_end - t0_real) / dtr)
-    Phase_t = 0j
-    for n in range(n_steps):
-        t_mid = t0_real + (n + 0.5) * dtr
-        Ax_t = vec_pot_x_func(t_mid)
-        Ay_t = vec_pot_y_func(t_mid)
-        integrand = 0.5 * (kx + Ax_t)**2 + 0.5 * (ky + Ay_t)**2 + ion_pot
-        Phase_t -= integrand * dtr
-    # 处理剩余部分
-    t_last = t0_real + n_steps * dtr
-    if t_last < t_end:
-        dt_remain = t_end - t_last
-        t_mid = t_last + 0.5 * dt_remain
-        Ax_t = vec_pot_x_func(t_mid)
-        Ay_t = vec_pot_y_func(t_mid)
-        integrand = 0.5 * (kx + Ax_t)**2 + 0.5 * (ky + Ay_t)**2 + ion_pot
-        Phase_t -= integrand * dt_remain
-    return Phase_t
-"""
+    function seek_saddle(kx, ky, kz)
+        saddle_length = 0
+        lastt = 0. + 0.0im
+        saddlevec = zeros(ComplexF64, size(LG.CI.complextgrid))[:] 
+        for j in 1:LG.CI.imagtlength
+            for i in 1:LG.CI.realtlength
+                iter = 0
+                complext = LG.CI.complextgrid[i, j]
+                while iter < LG.CI.max_iter
+                    elex, eley = LG.generate_ele(complext)
+                    vecpotx, vecpoty = LG.generate_vecpot(complext)
+                    deriva2_semiaction_x = (kx + vecpotx) * (-elex)
+                    deriva2_semiaction_y = (ky + vecpoty) * (-eley)
+                    deriva_semiaction = 0.5 * (kx + vecpotx)^2 + 0.5 * (ky + vecpoty)^2 + LG.CI.ION_POT  # S'(t)
+                    deriva_semiaction_abs = abs(deriva_semiaction)
+                    # choose non-repetition saddle, |S'(t)| \approx 0.
+                    if deriva_semiaction_abs < LG.CI.tol  
+                        distancet = abs(complext - lastt)
+                        if distancet > LG.CI.threshold
+                            saddle_length += 1
+                            saddlevec[saddle_length] = complext
+                            lastt =  complext
+                            break
+                        end
+                    end
+                    # if there is no saddle point, renew t_s and continue the iteration
+                    iter += 1
+                    deriva2_semiaction = deriva2_semiaction_x + deriva2_semiaction_y  # S''(t_s)
+                    complext -= deriva_semiaction / deriva2_semiaction
+                end
+            end
+        end
+        # clean saddlevec
+        for i in 1:saddle_length-1
+            for j in i+1:saddle_length
+                distancet = abs(saddlevec[i] - saddlevec[j])
+                if distancet < LG.CI.threshold
+                    saddlevec[j] = 0. + 0.0im
+                end
+            end
+        end
+        valid_saddlevec = filter(!iszero, saddlevec)
+        valid_saddle_length = length(valid_saddlevec)
+        return Array([valid_saddlevec, valid_saddle_length])
+    end
 end

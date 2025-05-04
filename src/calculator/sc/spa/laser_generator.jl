@@ -1,9 +1,7 @@
-include("./const_initializer.jl") 
-import .ConstInitializer
-
 module LaserGenerator
     # const input
-    import ..ConstInitializer as CI
+    include("./const_initializer.jl") 
+    import .ConstInitializer as CI
     # generate function
     function generate_ele(t)
         cyclenum = CI.cyclenum
