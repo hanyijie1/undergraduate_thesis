@@ -38,7 +38,8 @@ module MathUtils
                     deriva_semiaction = 0.5 * (kx + vecpotx)^2 + 0.5 * (ky + vecpoty)^2 + LG.CI.ION_POT  # S'(t)
                     deriva_semiaction_abs = abs(deriva_semiaction)
                     # choose non-repetition saddle, |S'(t)| \approx 0.
-                    if deriva_semiaction_abs < LG.CI.tol  
+                    if deriva_semiaction_abs < LG.CI.tol && real(complext) > LG.CI.realtvec[1] &&  #\n
+                        real(complext) < LG.CI.realtvec[end] && imag(complext) > LG.CI.imagtvec[1]
                         distancet = abs(complext - lastt)
                         if distancet > LG.CI.threshold
                             saddle_length += 1
@@ -64,7 +65,6 @@ module MathUtils
             end
         end
         valid_saddlevec = filter(!iszero, saddlevec)
-        valid_saddle_length = length(valid_saddlevec)
-        return Array([valid_saddlevec, valid_saddle_length])
+        return valid_saddlevec
     end
 end
