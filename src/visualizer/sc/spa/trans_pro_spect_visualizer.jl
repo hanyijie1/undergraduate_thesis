@@ -19,12 +19,18 @@ module TransProSpectVisualizer
         # 绘制热力图
         pyplot()
         # 绘制极坐标热力图（注意参数顺序）
-        heatmap(CI.thetavec, CI.pvec, transamp_pro[end, :, :],
-            proj=:polar,
-            color=:viridis,
-            grid=false,
-            #clims=(0,10),
-        )
-        savefig("final_polar_heatmap.png")
+        # 定义布局：2 行 1 列
+        
+        for i in 1:CI.visual_length
+            fig = plot(size=(500, 500))
+            heatmap!(fig, CI.thetavec, CI.pvec, transamp_pro[i, :, :],
+                proj=:polar,
+                color=:viridis,
+                grid=false,
+                title="Polar Heatmap",
+            )
+            savefig("final_polar_heatmap$(i).png")
+        end
+        
     end
 end

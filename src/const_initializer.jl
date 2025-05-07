@@ -2,9 +2,9 @@ module ConstInitializer
     #---------- general info ---------
     #
     # grid
-    plength = 200
-    thetalength = 1000
-    pvec = range(1e-2, 1, length=plength) 
+    plength = 100
+    thetalength = 200
+    pvec = range(1e-14, 1, length=plength) 
     pstep = step(pvec)   
     thetavec = range(1e-10, 2pi, length=thetalength)
     thetastep = step(thetavec)
@@ -19,7 +19,6 @@ module ConstInitializer
     cycle = 2pi / omega0
     cyclenum = 4
     duration = cyclenum * cycle
-    tlength = 1500
 
     #
     # path
@@ -32,10 +31,10 @@ module ConstInitializer
 
     #----------sc-----------+
     # spa
-    max_iter = 50
+    max_iter = 10
     tol = 1e-14
     threshold = 1.
-    realtlength = 15
+    realtlength = 20
     imagtlength = 10
     realtvec = range(0, duration, length=realtlength)
     imagtvec = range(0, duration / 4, length=imagtlength)

@@ -6,23 +6,30 @@ module MathUtils
     import .LaserGenerator as LG
     using CairoMakie
     using ScatteredInterpolation
+    using QuadGK
     # function
+    function linear_integral(f, z0, zend)
+        function integrand(x, z0, zend)
+            x0, y0 = real(z0), imag(z0)
+            xend, yend = real(zend), imag(zend)
+            k = (yend - y0) / (xend - x0) 
+            z = x + (k * (x - x0) + y0) * 1.0im
+            dz_dt = 1. + k * 1.0im
+            return f(z) * dz_dt
+        end
+        result, error = quadgk(t -> integrand(t, z0, zend), real(z0), real(zend))
+        return result, error
+    end
+
     function calculate_semiaction(saddle, kx, ky, kz)
         # variables input
-        realt0 = real(saddle)
-        tend = CI.duration
-        tlength = (tend - realt0) / (tend - 0) * CI.tlength  # the t step of t in [realt0, tend], with similar step as CI.
-        tlength = round(Int64, tlength) + 2  # 防止tvec长度为1
-        tvec = range(realt0, tend, length=tlength)
-        tstep = step(tvec)
-        # calculation
-        semi_action = 0
-        @simd for t in tvec[begin:end-1]
-            tmid = t + 0.5tstep
-            vecpotx, vecpoty = LG.generate_vecpot(tmid)
+        tend = complex(CI.duration, 0.0)
+        function solve_deriva_semiaction(t)
+            vecpotx, vecpoty = LG.generate_vecpot(t)
             deriva_semiaction = -(0.5(kx + vecpotx)^2 + 0.5(ky + vecpoty)^2 + CI.ION_POT)
-            semi_action += deriva_semiaction * tstep
+            return deriva_semiaction
         end
+        semi_action, _ = linear_integral(solve_deriva_semiaction, saddle, tend)
         return semi_action
     end
 
@@ -54,8 +61,7 @@ module MathUtils
                     if deriva_semiaction_abs < CI.tol && 
                        real(complext) > CI.realtvec[1] &&  
                        real(complext) < CI.realtvec[end] && 
-                       imag(complext) > CI.imagtvec[1] &&  
-                       real(complext) * imag(complext) != 0
+                       imag(complext) > CI.imagtvec[1]
                         saddle_length += 1
                         saddlevec[saddle_length] = complext
                         break
