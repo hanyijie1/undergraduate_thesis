@@ -2,8 +2,8 @@ module ConstInitializer
     #---------- general info ---------
     #
     # grid
-    plength = 200
-    thetalength = 400
+    plength = 100
+    thetalength = 300
     pvec = range(1e-14, 1, length=plength) 
     pstep = step(pvec)   
     thetavec = range(1e-10, 2pi, length=thetalength)
@@ -34,13 +34,8 @@ module ConstInitializer
     max_iter = 30
     tol = 1e-14
     threshold = 1.
-    realtlength = 40
-    imagtlength = 20
-    realtvec = range(0, duration, length=realtlength)
-    imagtvec = range(0, duration / 4, length=imagtlength)
-    realtgrid = repeat(realtvec, 1, imagtlength)
-    imagtgrid = repeat(imagtvec, 1, realtlength)' 
-    complextgrid = @. realtgrid + imagtgrid * 1.0im
+    realtlength = 30
+    imagtlength = 15
     # path
     scdatafolder = joinpath(datafolder, "sc")
     sc_spa_datafile = joinpath(scdatafolder, "spa.jld2")
