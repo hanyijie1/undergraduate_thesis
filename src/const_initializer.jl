@@ -2,8 +2,8 @@ module ConstInitializer
     #---------- general info ---------
     #
     # grid
-    plength = 100
-    thetalength = 200
+    plength = 200
+    thetalength = 400
     pvec = range(1e-14, 1, length=plength) 
     pstep = step(pvec)   
     thetavec = range(1e-10, 2pi, length=thetalength)
@@ -31,11 +31,11 @@ module ConstInitializer
 
     #----------sc-----------+
     # spa
-    max_iter = 10
+    max_iter = 30
     tol = 1e-14
     threshold = 1.
-    realtlength = 20
-    imagtlength = 10
+    realtlength = 40
+    imagtlength = 20
     realtvec = range(0, duration, length=realtlength)
     imagtvec = range(0, duration / 4, length=imagtlength)
     realtgrid = repeat(realtvec, 1, imagtlength)

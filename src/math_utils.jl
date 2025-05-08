@@ -8,17 +8,22 @@ module MathUtils
     using ScatteredInterpolation
     using QuadGK
     # function
-    function linear_integral(f, z0, zend)
-        function integrand(x, z0, zend)
-            x0, y0 = real(z0), imag(z0)
-            xend, yend = real(zend), imag(zend)
-            k = (yend - y0) / (xend - x0) 
-            z = x + (k * (x - x0) + y0) * 1.0im
-            dz_dt = 1. + k * 1.0im
-            return f(z) * dz_dt
+    function right_integral(f, z0, zend)
+        x0, y0 = real(z0), imag(z0)
+        xmiddle, ymiddle = real(z0), imag(zend)
+        xend, yend = real(zend), imag(zend)
+        function integrand1(imagt)
+            z = x0 + imagt * 1.0im
+            return f(z) * 1.0im
         end
-        result, error = quadgk(t -> integrand(t, z0, zend), real(z0), real(zend))
-        return result, error
+        function integrand2(realt)
+            z = realt + ymiddle * 1.0im
+            return f(z) 
+        end
+        result1, err1 = quadgk(imagt -> integrand1(imagt), y0, ymiddle)
+        result2, err2 = quadgk(realt -> integrand2(realt), xmiddle, xend)
+        result, err = result1 + result2, max(err1, err2)
+        return result, err
     end
 
     function calculate_semiaction(saddle, kx, ky, kz)
@@ -29,7 +34,7 @@ module MathUtils
             deriva_semiaction = -(0.5(kx + vecpotx)^2 + 0.5(ky + vecpoty)^2 + CI.ION_POT)
             return deriva_semiaction
         end
-        semi_action, _ = linear_integral(solve_deriva_semiaction, saddle, tend)
+        semi_action, _ = right_integral(solve_deriva_semiaction, saddle, tend)
         return semi_action
     end
 
