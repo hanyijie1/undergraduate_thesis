@@ -131,7 +131,7 @@ def integral_solver(
 
 @njit
 def integrand_function(t_vec, omega=0.057):
-    """
+    r"""
     Compute the test integrand function for numerical integration.
     Evaluates the function sin(ω t / 12)² cos(ω t) for testing the numerical integrator.
 
@@ -156,7 +156,7 @@ def integrand_function(t_vec, omega=0.057):
     return np.sin(omega * t_vec / 12) ** 2 * np.cos(omega * t_vec)
 @njit
 def analytical_integrated_function(t_vec, omega=0.057):
-    """
+    r"""
     Compute the analytical integral of the test integrand function.
 
     Provides the exact antiderivative of sin(ω t / 12)² cos(ω t) for validating
@@ -187,7 +187,7 @@ def analytical_integrated_function(t_vec, omega=0.057):
 
 @njit
 def calculate_similarity(vec1, vec2):
-    """
+    r"""
     Compute the mean squared error between two vectors.
 
     Measures the similarity between two vectors by calculating the mean of the squared

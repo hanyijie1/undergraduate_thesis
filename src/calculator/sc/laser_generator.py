@@ -27,7 +27,7 @@ class LaserGenerator(ConstInitializer):
         self.vec_pot_y_vec = np.zeros(self.t_count, dtype=np.float64)
 
     def _generate_ele(self, t: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
-        """
+        r"""
         general electric field evolution info.
 
         Parameters

@@ -2,8 +2,8 @@ module ConstInitializer
     #---------- general info ---------
     #
     # grid
-    plength = 100
-    thetalength = 300
+    plength = 150
+    thetalength = 600
     pvec = range(1e-14, 1, length=plength) 
     pstep = step(pvec)   
     thetavec = range(1e-10, 2pi, length=thetalength)

@@ -25,8 +25,8 @@ class ConstInitializer:
     """
     def __init__(
             self,
-            p_count=200,
-            theta_count=1000,
+            p_count=150,
+            theta_count=600,
             t_count=15000,
     ):
         """
