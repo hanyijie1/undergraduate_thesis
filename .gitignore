@@ -1,4 +1,5 @@
 *.h5
+*.jld2
 *.pdf
 *.eps
 /docs/reference/refer_code/

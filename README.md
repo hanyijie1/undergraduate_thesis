@@ -16,6 +16,10 @@
 
 * [中期报告](docs/interim_inspection/interim%20inspection.md)
 
+### 答辩
+
+* [答辩](docs/thesis_defense/Awesome-Marp-main（副本）/files/mycase.pptx)
+
 ### latex 论文正文
 
 * [latex论文](docs/Hainanu-bachelor-thesis/main_multifile.tex) 其格式由一位同学改进。
