@@ -1,6 +1,6 @@
 \chapter{理论方法}
 
-\section{Adams-Bashforth算法}
+\section{亚当斯-巴什福思积分算法}
 
 本文数值积分较为复杂，且需要大量前置数值解条件，隐式方法不现实，需要一种显式积分方法。
 
@@ -31,7 +31,7 @@ b_{s-j-1} = \frac{(-1)^j}{j!(s-j-1)!} \int_0^1 \prod_{i=0 \atop i \neq j}^{s-1} 
 
 AB迭代系数生成器和积分求解器代码实现参考附录\ref{app:ab_code}和\ref{app:integral_solver} 。
 
-\section{SFA理论}
+\section{强场近似理论}
 对于振幅共面的强场激光源对束缚态电子的电离，可以忽略传播方向（假如为z方向）的被散射电子的动量分布，于是有：
 \begin{equation}
 \frac{d^2P}{dp_x dp_y} = |\mathbf M_p|^2, \label{eq:trans amp}
@@ -77,7 +77,7 @@ SFA近似下，如若给定氢原子初态和电离势，\eqref{eq:simplify M_p}
 
 SFA的微分形式参考附录\ref{app:sfa_trans_amp} 。
 
-\section{CVA理论}
+\section{库伦-沃尔科夫波近似理论}
 在CVA理论中，考虑库仑势对末态波函数的修正，跃迁矩阵 $\mathbf{M}_p^{\text{CVA}}$ 可表示为：  
 \begin{equation}  
 \mathbf{M}_p^{\text{CVA}} = \int_{-\infty}^{\infty} dt \, \langle \psi_p^{\text{CV}}(t) | \mathbf{r} \cdot \mathbf{E}(t) | \psi_0(t) \rangle. \label{eq:primal M_p_cva}  

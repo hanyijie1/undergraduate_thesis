@@ -256,7 +256,7 @@ Scale = 0.9
   \@mainmatterfalse
   \pagenumbering{Roman}
   \titleformat{\chapter}[block]
-    {\centering\fontsize{16pt}{16pt}\selectfont\strong\thispagestyle{fancy}}
+    {\heiti\centering\fontsize{16pt}{16pt}\selectfont\strong\thispagestyle{fancy}}
     {\thechapter}{7.5pt}{}
   \titlespacing{\chapter}{0pt}{0pt}{18pt}
 }
@@ -266,7 +266,7 @@ Scale = 0.9
   \@mainmattertrue
   \pagenumbering{arabic}
   \titleformat{\chapter}[block]
-    {\raggedright\fontsize{16pt}{16pt}\selectfont\strong\thispagestyle{fancy}}
+    {\heiti\raggedright\fontsize{16pt}{16pt}\selectfont\strong\thispagestyle{fancy}}
     {\thechapter}{7.5pt}{}
   \titlespacing{\chapter}{0pt}{0pt}{18pt}
 }
@@ -302,7 +302,7 @@ Scale = 0.9
 \setcounter{tocdepth}{2}
 
 \titleformat{\chapter}[block]
-  {\centering\fontsize{16pt}{16pt}\selectfont\strong\thispagestyle{fancy}}{\thechapter}{7.5pt}{}
+  {\heiti\centering\fontsize{16pt}{16pt}\selectfont\strong\thispagestyle{fancy}}{\thechapter}{7.5pt}{}
 
 \titleformat{\section}[block]
   {\fontsize{14pt}{14pt}\selectfont\strong}
@@ -990,7 +990,7 @@ School: & \en@theschool \\
   \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
   \setcounter{section}{0}
   \titleformat{\chapter}[block]
-  {\centering\fontsize{15pt}{15pt}\selectfont\strong\thispagestyle{fancy}}{\thechapter}{7.5pt}{}
+  {\heiti\centering\fontsize{15pt}{15pt}\selectfont\strong\thispagestyle{fancy}}{\thechapter}{7.5pt}{}
   \ifchinesebook{
     \chapter*{致\hspace{12pt}谢}
     \addcontentsline{toc}{chapter}{致\hspace{12pt}谢}
@@ -1051,7 +1051,7 @@ School: & \en@theschool \\
   % 修改附录章节编号格式为字母，并将“附录”作为标题前缀
   \renewcommand{\thechapter}{\Alph{chapter}} % 编号格式为A, B, C
   \titleformat{\chapter}[block]
-    {\centering\fontsize{15pt}{15pt}\selectfont\strong\thispagestyle{fancy}}
+    {\heiti\centering\fontsize{15pt}{15pt}\selectfont\strong\thispagestyle{fancy}}
     {\thechapter\hspace{1em}} % 将“附录”加在标题前
     {0pt} % 编号与标题之间的间距
     {}
@@ -1083,7 +1083,7 @@ School: & \en@theschool \\
   \interlinepenalty=0
   \addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
   \titleformat{\chapter}[block]
-    {\centering\fontsize{15pt}{15pt}\selectfont\strong\thispagestyle{fancy}}{附\hspace{12pt}录}{7.5pt}{}
+    {\heiti\centering\fontsize{15pt}{15pt}\selectfont\strong\thispagestyle{fancy}}{附\hspace{12pt}录}{7.5pt}{}
   %\renewcommand{\thechapter}{附\hspace{12pt}录}
   \ifchinesebook{
     \renewcommand{\appendixname}{附录}

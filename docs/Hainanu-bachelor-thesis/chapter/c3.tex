@@ -1,5 +1,5 @@
 \chapter{研究和讨论}
-\section{Adams-Bashforth迭代阶数选取}
+\section{亚当斯-巴什福思积分迭代阶数选取}
 在强场物理的数值模拟中，对含时薛定谔方程的求解常涉及对时间积分的高精度计算。Adams-Bashforth多步法作为显式积分方案，其阶数选择直接影响计算精度和效率。本论文通过解析方法(见\ref{app:ab_code}）生成了1-8阶所有迭代系数，选取和激光源频率（$\omega = 0.057$）和时域($N T$，$N = 4$)相同的（见图\ref{fig:sc_laser}）可解析积分的测试函数：
 \begin{equation}
 	f(x) = \sin({\frac{\omega}{12} t}^2) \cos{\omega t},
@@ -14,7 +14,7 @@
 	\text{MSE} = \frac{1}{n-1} \sum_{i=1}^n \left( y_{\text{num},i} - y_{\text{ana},i} \right)^2.
 \end{equation}
 
-\begin{figure}[!htbp]  % h是强制
+\begin{figure}[h]  % h是强制
 	\centering
 	\includegraphics[width=14cm]{order_test/err_analysis.pdf}
 	\caption{Adams-Bashforth多步法在不同迭代阶数（1-8阶）和时间步数下的（MSE）分布特征；（a）热图（低时间步数区间）：横轴为时间步数，纵轴为迭代阶数，颜色表示MSE；
@@ -42,7 +42,7 @@
 % SC
 %
 \section{单色场电离特征分析}
-\subsection{SFA}
+\subsection{强场近似下的跃迁概率分布与光电子能谱特征}
 考虑单色激光，如图\ref{fig:sc_laser} 。
 \begin{equation}
 	\mathbf{E}(t) = E_0 \exp\left(-\frac{(t - t_0)^2}{2\sigma^2}\right) \cos(\omega t) \hat e_x,
@@ -50,27 +50,27 @@
 \end{equation}
 其中脉宽高斯参数$\sigma = \frac{NT}{4\sqrt{\ln{2}}}$，周期数$N = 4$，$E_0 = 0.05$，$t_0 = \frac{NT}{2}$。
 
-\begin{figure}[!htbp]  % h是强制
+\begin{figure}[h]  % h是强制
 	\centering
-	\includegraphics[width=14cm]{sc/laser.pdf}
+	\includegraphics[width=13.5cm]{sc/laser.pdf}
 	\caption{单色激光：虚线框为周期间干涉时域，也即 $[0, T/2]$ 与$ [T, 3T/2]$ ，后文周期间干涉时域选取与此相同。}
 	\label{fig:sc_laser}
 \end{figure}
 
-\begin{figure}[!htbp]  % h是强制
+\begin{figure}[!htpb]  % h是强制
 	\centering
-	\includegraphics[width=14cm]{sc/sfa/trans_pro_spect_graph.pdf}
+	\includegraphics[width=13cm]{sc/sfa/trans_pro_spect_graph.pdf}
 	\caption{SFA框架下跃迁概率分布与光电子能谱特征；（a）跃迁概率角分布与（b）光电子能谱随时间演化特征；（a1-a4）分别对应不同时间窗口的极坐标概率分布，（b1-b4）为对应低能区域（$[0, 0.2]$）能谱。}
 	\label{fig:sc_sfa_trans_spect}
 \end{figure}
 
 图\ref{fig:sc_cva_trans_spect}展示了SFA框架下的跃迁概率分布与光电子能谱特征。在SFA的极坐标分布中（图a1-a4），可观察到典型的"月牙"干涉结构。这种结构在SPA理论中来源于电离电子在连续态中的相长干涉——当电子在相邻半周期内电离时，其动量空间波函数相位差导致  $\cos^2\theta$ 调制\citing{Arbo2012Doubly}。随着时间窗口的扩展（a1到a4），周期间干涉使动量分布呈现不在圆心的环状结构，对应能谱中的等间距峰结构，且有比较明显的周期间峰（图b1-b4）。
 
-\subsection{CVA}
+\subsection{库伦-沃尔科夫波近似下的跃迁概率分布与光电子能谱特征}
 
-\begin{figure}[!htbp]  % h是强制
+\begin{figure}[!htpb]  % h是强制
 	\centering
-	\includegraphics[width=14cm]{sc/cva/trans_pro_spect_graph.pdf}
+	\includegraphics[width=13cm]{sc/cva/trans_pro_spect_graph.pdf}
 	\caption{CVA框架下强场电离的（a）跃迁概率角分布与（b）低能区域能谱，参数设置与图\ref{fig:sc_sfa_trans_spect}相同；统一色标采用1/6次方非线性映射以增强弱信号对比。}
 	\label{fig:sc_cva_trans_spect}
 \end{figure}
@@ -80,11 +80,11 @@
 % OTC
 %
 \section{正交双色场电离特征分析}
-\subsection{SFA}
+\subsection{强场近似下的跃迁概率分布与光电子能谱特征}
 
-\begin{figure}[!htbp]  % h是强制
+\begin{figure}[!htpb]  % h是强制
 	\centering
-	\includegraphics[width=14cm]{otc/laser.pdf}
+	\includegraphics[width=13.5cm]{otc/laser.pdf}
 	\caption{正交双色激光}
 	\label{fig:otc_laser}
 \end{figure}
@@ -96,20 +96,20 @@
 \end{equation}
 其中相位差$\phi = \frac{\pi}{2}$，其他参数设置与\ref{eq:sc_laser}相同。
 
-\begin{figure}[!htbp]  % h是强制
+\begin{figure}[!htpb]  % h是强制
 	\centering
-	\includegraphics[width=14cm]{/otc/sfa/trans_pro_spect_graph.pdf}
+	\includegraphics[width=13cm]{/otc/sfa/trans_pro_spect_graph.pdf}
 	\caption{SFA框架下跃迁概率分布与光电子能谱特征；（a）跃迁概率角分布与（b）光电子能谱随时间演化特征；（a1-a4）分别对应不同时间窗口的极坐标概率分布，（b1-b4）为对应低能区域（$[0, 0.2]$）能谱；统一色标采用1/6次方非线性映射以增强弱信号对比。}
 	\label{fig:otc_sfa_trans_spect}
 \end{figure}
 
 图\ref{fig:otc_sfa_trans_spect}展示了SFA框架下的结果：极坐标分布（a1-a4）呈现出独特的鱼鳞干涉结构，此结果和\citing{Yu2016Coulomb}中结果高度一致，这是由x方向基频场与y方向倍频场的相干叠加所致。与单色场的轴对称扇形结构不同，双色场的正交相位关系（$\phi = \frac{\pi}{2}$）导致电离电子波包在动量空间的各向异性干涉。能谱演化（b1-b4）显示出分裂的周期间峰，表现为更密集的峰结构。
 
-\subsection{CVA}
+\subsection{库伦-沃尔科夫波近似下的跃迁概率分布与光电子能谱特征}
 
-\begin{figure}[!htbp]  % h是强制
+\begin{figure}[!htpb]  % h是强制
 	\centering
-	\includegraphics[width=14cm]{/otc/cva/trans_pro_spect_graph.pdf}
+	\includegraphics[width=13cm]{/otc/cva/trans_pro_spect_graph.pdf}
 	\caption{CVA框架下跃迁概率分布与光电子能谱特征；（a）跃迁概率角分布与（b）光电子能谱随时间演化特征；（a1-a4）分别对应不同时间窗口的极坐标概率分布，（b1-b4）为对应低能区域（$[0, 0.2]$）能谱；统一色标采用1/6次方非线性映射以增强弱信号对比。}
 	\label{fig:otc_cva_trans_spect}
 \end{figure}
@@ -119,24 +119,25 @@
 % NOTC
 %
 \section{非正交双色场电离特征分析}
-\subsection{非正交双色场（85°）CVA近似研究}
+\subsection{非正交双色场（85°）库伦-沃尔科夫波近似研究}
 
-\begin{figure}[!htbp]  % h是强制
+考虑非正交双色激光，如图\ref{fig:n_otc85_laser} 。
+
+\begin{figure}[h]  % h是强制
 	\centering
-	\includegraphics[width=14cm]{/n_otc85/laser.pdf}
+	\includegraphics[width=13.5cm]{/n_otc85/laser.pdf}
 	\caption{非正交双色激光($85^\circ$)}
 	\label{fig:n_otc85_laser}
 \end{figure}
 
-考虑非正交双色激光，如图\ref{fig:n_otc85_laser} 。
 \begin{equation}
 	\mathbf{E}(t) = \left(E_1 + E_2\cos\alpha\right) \hat e_x + E_2\sin\alpha \hat e_y,
 \end{equation}
 其中 $E_1(x) = E_0 \exp\left(-\frac{(t - t_0)^2}{2\sigma^2}\right) \cos(\omega t)$，$E_2 = E_0 \exp\left(-\frac{(t - t_0)^2}{2\sigma^2}\right) \cos(2 \omega t + \phi)$，激光夹角$\alpha = 85^\circ$。其他参数设置与（\ref{eq:sc_laser}）和（\ref{eq:otc_laser}）相同。
 
-\begin{figure}[!htbp]  % h是强制
+\begin{figure}[!htpb]  % h是强制
 	\centering
-	\includegraphics[width=14cm]{/n_otc85/cva/trans_pro_spect_graph.pdf}
+	\includegraphics[width=13cm]{/n_otc85/cva/trans_pro_spect_graph.pdf}
 	\caption{CVA框架下跃迁概率分布与光电子能谱特征；（a）跃迁概率角分布与（b）光电子能谱随时间演化特征；（a1-a4）分别对应不同时间窗口的极坐标概率分布，（b1-b4）为对应低能区域（$[0, 0.2]$）能谱；统一色标采用1/6次方非线性映射以增强弱信号对比。}
 	\label{fig:n_otc85_cva_trans_spect}
 \end{figure}
@@ -145,22 +146,22 @@
 
 能谱演化特征表现出周期内调制幅度相对于正交场的更加明显（黑色虚线），表明非正交场增强了电子波包的相干叠加效应。这种增强可能源于两个方面：首先，$85^\circ$ 极化角降低了电离电子的横向动量对称性，导致更多异相位波包成分参与干涉；其次，非正交加速路径增加了电子与母离子再碰撞的概率，如\citing{Arbo2012Doubly}所描述的库伦聚焦效应。
 
-\subsection{非正交双色场夹角扫描的CVA研究}
+\subsection{非正交双色场夹角扫描的库伦-沃尔科夫波近似研究}
 
 为研究非正交双色场的夹角效应，本工作选取 $\alpha = [5^\circ,25^\circ,45^\circ,65^\circ,85^\circ]$ 进行参数扫描。图\ref{fig:n_otc_cva_trans_spect}展示了不同夹角的跃迁概率分布与对应能谱特征，图\ref{amp_contrast}则呈现了特定动量值（$p=0.62,1.21,1.81$）的角向分布对比。
 
-\begin{figure}[!htbp]
+\begin{figure}[!htpb]
 	\centering
-	\includegraphics[width=14cm]{n_otc/cva/trans_pro_spect_graph.pdf}
+	\includegraphics[width=11cm]{n_otc/cva/trans_pro_spect_graph.pdf}
 	\caption{非正交双色场不同夹角的CVA计算结果：（a1-a5）极坐标跃迁概率分布，（b1-b5）对应能谱曲线，$\alpha$取值分别为$5^\circ,25^\circ,45^\circ,65^\circ,85^\circ$；统一色标采用1/6次方非线性映射以增强弱信号对比。}
 	\label{fig:n_otc_cva_trans_spect}
 \end{figure}
 
 能谱分布（图\ref{fig:n_otc_cva_trans_spect} b1-b5）呈现出显著的夹角依赖特征。例如在（图\ref{fig:n_otc_cva_trans_spect} b1） $E_k=0.15$ 附近出现显著凹陷（箭头,约对应第二个极小值点），这与该夹角下电子回碰母离子的共振条件相关\citing{Holmegaard2010Photoelectron}\citing{Wang2020High}。随着夹角增大，共振能量向低能方向移动，凹陷位置逐渐消失，表明非正交场的倾斜角度可有效调控电子再碰撞动力学。
 
-\begin{figure}[!htbp]
+\begin{figure}[!htpb]
 	\centering
-	\includegraphics[width=14cm]{n_otc/cva/amp_contrast.pdf}
+	\includegraphics[width=13.5cm]{n_otc/cva/amp_contrast.pdf}
 	\caption{非正交双色场夹角扫描的角向分布对比（$p=0.62,1.21,1.81$ ）：（a）低动量区呈现双峰结构，峰间距随夹角增大；（b）中动量区出现移动单峰结构；（c）高动量区展现复杂震荡行为}
 	\label{amp_contrast}
 \end{figure}

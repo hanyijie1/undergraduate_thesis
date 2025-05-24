@@ -153,7 +153,7 @@
 
 \chapter{积分算法}
 
-\section{AB系数生成代码}\label{app:ab_code}
+\section{亚当斯-巴什福思积分系数生成代码}\label{app:ab_code}
 \begin{lstlisting}[language=Python, caption={AB系数生成代码}, label={code:ab_generation}]
 import numpy as np
 import sympy as sp
@@ -325,7 +325,7 @@ def derive_semi_action(
 	return semi_action_deriva_vec
 \end{lstlisting}
 
-\section{SFA跃迁概率分布微分表达式}\label{app:sfa_trans_amp}
+\section{强场近似跃迁概率分布微分表达式}\label{app:sfa_trans_amp}
 \begin{lstlisting}[language=Python, caption={SFA跃迁概率分布微分表达式}, label={code:sfa-trans-amp}]
 @njit
 def sfa_deriva_trans_amp(
@@ -366,7 +366,7 @@ def sfa_deriva_trans_amp(
 	return trans_amp_deriva_vec
 \end{lstlisting}
 
-\section{CVA跃迁概率分布微分表达式}\label{app:cva_trans_amp}
+\section{库伦-沃尔科夫波近似跃迁概率分布微分表达式}\label{app:cva_trans_amp}
 \begin{lstlisting}[language=Python, caption={CVA跃迁概率分布微分表达式}, label={code:cva-trans-amp}]
 @njit
 def cva_deriva_trans_amp(

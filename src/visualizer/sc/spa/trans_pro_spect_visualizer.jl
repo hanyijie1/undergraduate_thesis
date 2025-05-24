@@ -29,7 +29,7 @@ module TransProSpectVisualizer
                 grid=false,
                 title="Polar Heatmap",
             )
-            savefig("final_polar_heatmap$(i).png")
+            # savefig("final_polar_heatmap$(i).png") # just for test, generate in current directory.
         end
         
     end

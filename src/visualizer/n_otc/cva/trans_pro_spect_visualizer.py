@@ -54,11 +54,11 @@ class TransProSpectVisualizer(ConstInitializer):
     def plot_trans_pro_spect(self, ):
         # distribution
         p_mesh, theta_mesh = np.meshgrid(self.p_vec, self.theta_vec)
-        fig = plt.figure(figsize=(self.alpha_count * 5.5 + 1, 4 * 2))
-        gs = fig.add_gridspec(2, self.alpha_count + 1, width_ratios=[1] * self.alpha_count + [0.05])  # cbar distribution
-        ax_trans_pro = [fig.add_subplot(gs[0, i], polar=True) for i in range(0, self.alpha_count)]
-        ax_spect = [fig.add_subplot(gs[1, i]) for i in range(0, self.alpha_count)]
-        cax = fig.add_subplot(gs[0, - 1])
+        p_mesh, theta_mesh = np.meshgrid(self.p_vec, self.theta_vec)
+        fig = plt.figure(figsize=(5.5 * 2, 4.5 * self.alpha_count + 1))
+        gs = fig.add_gridspec(self.alpha_count + 2, 2, width_ratios=[1] * 2, height_ratios=[0.15] + [0.02] + [1] * self.alpha_count)  # cbar distribution
+        ax_trans_pro = [fig.add_subplot(gs[i, 0], polar=True) for i in range(0 + 2, self.alpha_count + 2)]
+        cax = fig.add_subplot(gs[0, :])
         # trans_pro
         # plot
         for i in range(self.alpha_count):
@@ -71,15 +71,25 @@ class TransProSpectVisualizer(ConstInitializer):
             ax_trans_pro[i].set_title(r"$({}) \alpha = {}^\circ$".format(self.trans_pro_alphabetic_scan_sq[i], alpha))
             ax_trans_pro[i].set_xticks([])
             ax_trans_pro[i].set_yticks([])
-            ax_trans_pro[i].set_xlabel("$p_x$", fontsize=15)
             ax_trans_pro[i].set_ylabel("$p_y$", fontsize=15)
+        ax_trans_pro[-1].set_xlabel("$p_x$", fontsize=15)
         # cbar
-        cbar = fig.colorbar(im, cax=cax, orientation='vertical', aspect=40)  # cbar and its tick
+        cbar = fig.colorbar(im, cax=cax, orientation='horizontal')  # cbar and its tick
         cbar.set_label('6th power heel of relative value')
         bar_tick = np.linspace(self._forward(v_min), self._forward(v_max), 5)
         cbar.set_ticks(self._inverse(bar_tick))
+        # modulate linear
+        theta = np.radians(30)
+        max_radius = ax_trans_pro[3].get_rmax()
+        r = np.linspace(0, max_radius, 100)
+        ax_trans_pro[3].plot([theta] * 100, r, color='black', linewidth=1, linestyle='--', label=r'$\theta=30^\circ$')
+        theta = np.radians(150)
+        max_radius = ax_trans_pro[3].get_rmax()
+        r = np.linspace(0, max_radius, 100)
+        ax_trans_pro[3].plot([theta] * 100, r, color='black', linewidth=1, linestyle='--', label=r'$\theta=150^\circ$')
         # spect
-        ax_spect[0].set_ylabel(r"$dP/dE_k(a.u.)$", fontsize=15)
+        ax_spect = [fig.add_subplot(gs[i, 1]) for i in range(0 + 2, self.alpha_count + 2)]
+        ax_spect[-1].set_xlabel("$E_k(a.u)$", fontsize=15)
         for i in range(self.alpha_count):
             max_visual_x = 0.3
             max_visual_y = np.percentile(self.spectrum_matrix[:, i], 96)
@@ -92,8 +102,8 @@ class TransProSpectVisualizer(ConstInitializer):
             ax_spect[i].set_yticks(np.linspace(0, max_visual_y, 5))
             formatter = ScalarFormatter(useMathText=True)
             formatter.set_powerlimits((0, 0))  # 强制所有数值使用统一乘数
+            ax_spect[i].set_ylabel(r"$dP/dE_k(a.u.)$", fontsize=15)
             ax_spect[i].yaxis.set_major_formatter(formatter)
-            ax_spect[i].set_xlabel("$E_k(a.u)$", fontsize=15)
             self._assist_plot_spect(self.energy_vec, self.spectrum_matrix[:, i], ax_spect[i], r"$\alpha = {}^\circ$".format(alpha))
             # arrow inter peak
             ax_spect[0].scatter(0.155, 0.03,
@@ -126,6 +136,6 @@ class TransProSpectVisualizer(ConstInitializer):
                                 c='black',
                                 edgecolors='black'
                                 )
-        plt.savefig(f"{self.n_otc_cva_trans_pro_spect_graph_path}.png", format='png', dpi=1000, bbox_inches='tight')
+        plt.savefig(f"{self.n_otc_cva_trans_pro_spect_graph_path}.png", format='png', dpi=500, bbox_inches='tight')
         plt.savefig(f"{self.n_otc_cva_trans_pro_spect_graph_path}.pdf", format='pdf', bbox_inches='tight')
         plt.show()

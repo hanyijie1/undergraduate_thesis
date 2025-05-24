@@ -53,10 +53,10 @@ class TransProSpectVisualizer(ConstInitializer):
     def plot_trans_pro_spect(self, ):
         # trans_pro
         p_mesh, theta_mesh = np.meshgrid(self.p_vec, self.theta_vec)
-        fig = plt.figure(figsize=(self.visual_count * 5.5 + 1, 4.5 * 2))
-        gs = fig.add_gridspec(2, self.visual_count + 1, width_ratios=[1] * self.visual_count + [0.05])  # cbar distribution
-        ax_trans_pro = [fig.add_subplot(gs[0, i], polar=True) for i in range(0, self.visual_count)]
-        cax = fig.add_subplot(gs[0, - 1])
+        fig = plt.figure(figsize=(5.5 * 2, 4.5 * self.visual_count + 1))
+        gs = fig.add_gridspec(self.visual_count + 2, 2, width_ratios=[1] * 2, height_ratios=[0.15] + [0.02] + [1] * self.visual_count)  # cbar distribution
+        ax_trans_pro = [fig.add_subplot(gs[i, 0], polar=True) for i in range(0 + 2, self.visual_count + 2)]
+        cax = fig.add_subplot(gs[0, :])
         # plot
         v_min, v_max = 0, np.percentile(self.trans_pro_arr[:, :, 0], 99)
         norm = mcolors.FuncNorm((self._forward, self._inverse), vmin=v_min, vmax=v_max)
@@ -76,35 +76,35 @@ class TransProSpectVisualizer(ConstInitializer):
         ax_trans_pro[0].tick_params(axis='y', colors='white')
         ax_trans_pro[0].set_xticks([])
         ax_trans_pro[0].grid(False, axis='y')
-        ax_trans_pro[0].set_xlabel("$p_x$", fontsize=15)
         ax_trans_pro[0].set_ylabel("$p_y$", fontsize=15)
         ax_trans_pro[0].set_rlabel_position(-90)
         ax_trans_pro[1].set_title('({}) intra-cycle'.format(self.trans_pro_alphabetic_sq[1]))
         ax_trans_pro[1].set_rticks([])
         ax_trans_pro[1].set_xticks([])
-        ax_trans_pro[1].set_xlabel("$p_x$", fontsize=15)
+        ax_trans_pro[1].set_ylabel("$p_y$", fontsize=15)
         ax_trans_pro[2].set_title("({}) 2 cycles".format(self.trans_pro_alphabetic_sq[2]))
         ax_trans_pro[2].set_rticks([])
         ax_trans_pro[2].set_xticks([])
-        ax_trans_pro[2].set_xlabel("$p_x$", fontsize=15)
+        ax_trans_pro[2].set_ylabel("$p_y$", fontsize=15)
         ax_trans_pro[3].set_title("({}) 4 cycles".format(self.trans_pro_alphabetic_sq[3]))
         ax_trans_pro[3].set_rticks([])
         ax_trans_pro[3].set_xticks([])
+        ax_trans_pro[3].set_ylabel("$p_y$", fontsize=15)
         ax_trans_pro[3].set_xlabel("$p_x$", fontsize=15)
         # cbar
-        cbar = fig.colorbar(im, cax=cax, orientation='vertical', aspect=40)  # cbar and its tick
+        cbar = fig.colorbar(im, cax=cax, orientation='horizontal')  # cbar and its tick
         cbar.set_label('6th power heel of relative value')
         bar_tick = np.linspace(self._forward(v_min), self._forward(v_max), 5)
         cbar.set_ticks(self._inverse(bar_tick))
         # spect
-        ax_spect = [fig.add_subplot(gs[1, i]) for i in range(0, self.visual_count)]
+        ax_spect = [fig.add_subplot(gs[i, 1]) for i in range(0 + 2, self.visual_count + 2)]
         self._assist_plot_spect(self.energy_vec, self.spectrum_matrix[:, 0], ax_spect[0], "inter-cycle")
         self._assist_plot_spect(self.energy_vec, self.spectrum_matrix[:, 1], ax_spect[1], "intra-cycle")
         self._assist_plot_spect(self.energy_vec, self.spectrum_matrix[:, 2], ax_spect[2], "2 cycles")
         self._assist_plot_spect(self.energy_vec, self.spectrum_matrix[:, 3], ax_spect[3], "4 cycles")
-        ax_spect[0].set_ylabel(r"$dP/dE_k(a.u.)$", fontsize=12)
+        ax_spect[-1].set_xlabel("$E_k(a.u)$", fontsize=12)
         for i in range(self.visual_count):
-            max_visual_x = 0.2
+            max_visual_x = 1.2
             max_visual_y = np.percentile(self.spectrum_matrix[:, i], 100)
             ax_spect[i].set_title("({})".format(self.spect_alphabetic_sq[i]))
             ax_spect[i].set_xlim(0, max_visual_x)
@@ -114,7 +114,7 @@ class TransProSpectVisualizer(ConstInitializer):
             formatter = ScalarFormatter(useMathText=True)
             formatter.set_powerlimits((0, 0))  # 强制所有数值使用统一乘数
             ax_spect[i].yaxis.set_major_formatter(formatter)
-            ax_spect[i].set_xlabel("$E_k(a.u)$", fontsize=12)
+            ax_spect[i].set_ylabel(r"$dP/dE_k(a.u.)$", fontsize=12)
             ax_spect[i].grid(False)
         plt.savefig(f"{self.otc_sfa_trans_pro_spect_graph_path}.png", format='png', dpi=1000, bbox_inches='tight')
         plt.savefig(f"{self.otc_sfa_trans_pro_spect_graph_path}.pdf", format='pdf', bbox_inches='tight')
